@@ -33,6 +33,7 @@ main {
 
 .form-entrada div input {
   height: 35px;
+  width: 15vw;
   padding: 5px 10px;
   font-size: 1vw;
   outline: none;
@@ -56,4 +57,33 @@ main {
   outline: none;
   border: none;
   cursor: pointer;
+}
+
+.form-retorno {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
+}
+
+.form-retorno div p {
+  font-size: 1vw;
+}
+
+.form-retorno input {
+  height: 35px;
+  width: 15vw;
+  padding: 5px 10px;
+  font-size: 1vw;
+  outline: none;
+  border: 2px solid #6bd0ff;
+  border-radius: 5px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  cursor: text;
+}
+
+.form-retorno input:disabled {
+  border: 2px solid #97deff;
+  cursor: not-allowed;
 }
