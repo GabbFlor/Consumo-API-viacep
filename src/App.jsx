@@ -9,6 +9,20 @@ function App() {
   const [ estado, setEstado ] = useState("");
   const [ inputsDesativados, setInputsDesativados ] = useState(true);
 
+
+
+  function formatCep(value) {
+    // tira tudo q n é numero
+    value = value.replace(/\D/g, '');
+    
+    // add o tracinho
+    if (value.length > 5) {
+      value = value.replace(/(\d{5})(\d)/, '$1-$2');
+    }
+    
+    return value;
+  }
+
   return (
     <main>
       <form className='form-entrada'>
@@ -19,7 +33,8 @@ function App() {
             type="text" 
             placeholder='Informe o seu CEP...' 
             value={cep}
-            onChange={(e) => setCep(e.target.value)}
+            onChange={(e) => setCep(formatCep(e.target.value))}
+            maxLength={9}
           />
 
           <button type='submit' title='Buscar...'>
