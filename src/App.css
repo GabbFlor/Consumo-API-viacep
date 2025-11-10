@@ -59,6 +59,18 @@ main {
   cursor: pointer;
 }
 
+.cpf-errado {
+  color: rgb(197, 0, 0) !important;
+  border: 2px solid #ff0000 !important;
+  box-shadow: 0 0 4px #ff00007e !important;
+  transition: border 0.3s ease, box-shadow 0.3s ease, color 0.3s ease !important;
+}
+
+.cpf-erro-text {
+  position: absolute;
+  color: rgb(197, 0, 0);
+}
+
 .form-retorno {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

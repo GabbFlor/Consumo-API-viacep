@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import axios from 'axios';
 
 function App() {
   const [ cep, setCep ] = useState("");
@@ -8,8 +9,36 @@ function App() {
   const [ cidade, setCidade ] = useState("");
   const [ estado, setEstado ] = useState("");
   const [ inputsDesativados, setInputsDesativados ] = useState(true);
+  const [ cpfErro, setCpfErro] = useState(false);
 
+  function HandleSubmitCep(e) {
+    e.preventDefault();
 
+    axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+      .then((response) => {
+        // capturando erro (ele vai para o bloco "catch" lá de baixo)
+        if (response.data.erro) {
+          throw new Error('CEP não encontrado.')
+        }
+
+        // mandando as respostas encontradas para os nossos inputs
+        setRua(response.data.logradouro);
+        setBairro(response.data.bairro);
+        setCidade(response.data.localidade);
+        setEstado(`${response.data.estado} - ${response.data.uf}`);
+      })
+      .catch((error) => {
+        setCpfErro(true);
+
+        setRua("");
+        setBairro("");
+        setCidade("");
+        setEstado("");
+      })
+      .finally(() => {
+        setInputsDesativados(true);
+      })
+  }
 
   function formatCep(value) {
     // tira tudo q n é numero
@@ -25,7 +54,7 @@ function App() {
 
   return (
     <main>
-      <form className='form-entrada'>
+      <form className='form-entrada' onSubmit={HandleSubmitCep}>
         <h1>Consulta de CEP</h1>
 
         <div>
@@ -33,13 +62,22 @@ function App() {
             type="text" 
             placeholder='Informe o seu CEP...' 
             value={cep}
-            onChange={(e) => setCep(formatCep(e.target.value))}
+            onChange={(e) => {
+                setCpfErro(false)
+                setCep(formatCep(e.target.value))
+              }
+            }
             maxLength={9}
+            className={cpfErro ? "cpf-errado" : ""}
           />
 
           <button type='submit' title='Buscar...'>
             <i className="bi bi-search"/>
           </button>
+
+          {cpfErro ? (
+            <p className='cpf-erro-text'>Não foi possível encontrar esse CEP.</p>
+          ) : ("")}
         </div>
       </form>
 
